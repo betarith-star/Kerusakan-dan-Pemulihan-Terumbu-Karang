@@ -221,7 +221,7 @@
         };
         L.control.layers(null, overlayMaps, { collapsed: false }).addTo(map);
 
-        // Memuat GeoJSON (Pastikan nama file di github: terumbu_karang.geojson)
+        // Memuat GeoJSON
         fetch('terumbu_karang.geojson')
             .then(response => {
                 if (!response.ok) throw new Error('Gagal memuat file terumbu_karang.geojson');
@@ -253,8 +253,8 @@
             }
         });
 
-        // Load CSV Pemulihan (Pastikan file bernama: data_pemulihan.csv tanpa spasi)
-        Papa.parse("data_pemulihan.csv", {
+        // Load CSV Pemulihan (Menggunakan nama file asli dengan spasi sesuai screenshot)
+        Papa.parse("Data Pemulihan Terumbu Karang.csv", {
             download: true,
             header: true,
             delimiter: ";",
