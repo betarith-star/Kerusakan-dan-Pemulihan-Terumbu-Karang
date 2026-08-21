@@ -1,0 +1,68 @@
+No;Tahun;Kabupaten/Kota;Provinsi;Y;X;Luas_Penanaman;Luas Penanaman (m2);Jumlah_Med;JENIS MEDIA;JUMLAH MEDIA;BIBIT;JUMLAH BIBIT;REMARKS
+1;2016;Kabupaten Belitung;Bangka Belitung;-2.511813;107.66163;216;216;50 Meja besi;RAK BETON;50; 700 fragmen karang;700;
+2;2016;Kabupaten Bangka;Bangka Belitung;-1.5945;106.0366;9;9;60 Meja beton;RAK BETON;60; 840 fragmen karang;840;
+3;2016;Kabupaten Lombok Utara;Nusa Tenggara Barat;-8.3882;116.0641;200;200;60 Beton pyramid;ARTIFICIAL PATCH REEF;60; 840 fragmen karang;840;
+4;2016;Kepulauan Seribu;DKI Jakarta;-5.7579;106.6168;200;200;60 Meja beton;RAK BETON;60; 540 fragmen karang;540;
+5;2016;Kota Ambon;Maluku;-3.7259;128.1266;60;60;60 Meja beton;RAK BETON;60; 540 fragmen karang;540;
+6;2016;Kota Ternate;Maluku Utara;0.8599;127.3156;60;60;60 Meja beton;RAK BETON;60; 840 fragmen karang;840;
+7;2016;Kota Palu;Sulawesi Tengah;0.7004;119.7774;200;200;60 Meja beton;RAK BETON;60; 540 fragmen karang;540;
+8;2016;Kota Bitung;Sulawesi Utara;1.4749;125.2897;200;200;60 Meja beton;RAK BETON;60; 854 fragmen karang;854;
+9;2017;Kabupaten Pesawaran;Lampung;-5.6789;105.2369;100;100;Meja Beton;RAK BETON;30;;1440;DATA JUMLAH MEDIA DAN JUMLAH BIBIT ESTIMASI
+10;2017;Kota Palu;Sulawesi Tengah;0.7004;119.7774;400;400;100 Meja rak beton;RAK BETON;100; 1.000 fragmen karang;1000;
+11;2018;Kabupaten Manggarai Barat;Nusa Tenggara Timur;-8.568;119.7159;900;900;Meja Rak Beton;RAK BETON;170;;8160;DATA JUMLAH MEDIA DAN JUMLAH BIBIT ESTIMASI
+12;2018;Kabupaten Bone Bolango;Gorontalo;0.4194;123.1038;1300;1300;250 Meja Rak beton;RAK BETON;250;;12000;DATA JUMLAH BIBIT ESTIMASI
+13;2018;Kota Makassar;Sulawesi Selatan;-5.0358;119.3558;1300;1300;550 spider;WEB SPIDER;550; 12.000 fragmen karang;12000;
+14;2019;Kabupaten Wakatobi;Sulawesi Tenggara;-5.2704;123.5184;1480;1480;370 spider;WEB SPIDER;370; 7.920 fragmen karang;7920;
+15;2019;Kabupaten Lombok Tengah;Nusa Tenggara Barat;-8.9225;116.3684;60;60;60 Meja Rak Beton;RAK BETON;60; 1.080 fragmen karang;1080;
+16;2019;Kabupaten Jepara (Karimunjawa);Jawa Tengah;-5.8842;110.4904;38.4;38.4;12 Artificial Patch Reef;ARTIFICIAL PATCH REEF;12;1.920 fragmen karang;1920;
+17;2020;Perairan Dusun Luk, Desa Sambik Bangkol, Kecamatan Gangga, Kabupaten Lombok Utara;Nusa Tenggara Barat;-8.28081;116.21939;559 m2;559;72 rak beton;RAK BETON;72;;3456;DATA JUMLAH BIBIT ESTIMASI
+18;2020;Perairan Kota Banteng, Kabupaten Selayar;Sulawesi Selatan;-6.10561;120.43311;720 m2;720;150 web spider;WEB SPIDER;150;;1950;DATA JUMLAH BIBIT ESTIMASI
+19;2020;Perairan pantai Kastela dan Desa Tobololo, Kota Ternate;Maluku Utara;0.76111;127.30639;520 m2;520;150 web spider;WEB SPIDER;150;;1950;DATA JUMLAH BIBIT ESTIMASI
+20;2021;Perairan Desa Pengudang, Kecamatan Teluk Sebong, Kabupaten Bintan;Kepulauan Riau;1.17947;104.49911;476 m2;476;119 spider;WEB SPIDER;119;;1547;DATA JUMLAH BIBIT ESTIMASI
+21;2021;Perairan Laut Maratua, Kabupaten Berau;Kalimantan Timur;2.18889;118.59969;384 m2;384;80 spider;WEB SPIDER;80;;1040;DATA JUMLAH BIBIT ESTIMASI
+22;2021;Perairan Pantai Kastela, Kota Ternate;Maluku Utara;0.76111;127.30639;480 m2;480;120 spider;WEB SPIDER;120;;1560;DATA JUMLAH BIBIT ESTIMASI
+23;2021;Perairan Dusun Eri, Desa Air Louw, Kecamatan Nusaniwe, Kota Ambon;Maluku;-3.7455;128.12936;540 m2;540;135 spider;WEB SPIDER;135;;1755;DATA JUMLAH BIBIT ESTIMASI
+24;2022;Perairan Kabupaten Sampang, Madura;Jawa Timur;-7.20092;114.04619;420 m2;420;130 spider;WEB SPIDER;130;;1690;DATA JUMLAH BIBIT ESTIMASI
+25;2022;Perairan Kota Makasar;Sulawesi Selatan;-5.037;119.27403;430 m2;430;127 spider;WEB SPIDER;127;;1651;DATA JUMLAH BIBIT ESTIMASI
+26;2022;Perairan Kecamatan Maumere, Kabupaten Sikka;Nusa Tenggara Timur;-8.62425;122.29519;130 m2;130;130 spider;WEB SPIDER;130;;1690;DATA JUMLAH BIBIT ESTIMASI
+27;2022;Perairan Kota Ternate;Maluku Utara;0.76111;127.30639;298 m2;298;90 spider;WEB SPIDER;90;;1170;DATA JUMLAH BIBIT ESTIMASI
+28;2022;Perairan Kota Gorontalo;Gorontalo;0.44577;123.1227;540 m2;540;85 spider;WEB SPIDER;85;;1105;DATA JUMLAH BIBIT ESTIMASI
+29;2023;Perairan Pulau Tikus, Kota Bengkulu;Bengkulu;-3.83222;102.17836;3.500 m2;3500;90 spider;WEB SPIDER;90;1040 Fragmen Karang;1040;
+30;2023;Perairan Desa Obel – obel Kec. Sambelia Lombok Timur;Nusa Tenggara Barat;-8.25714;116.54213;2.992 m2;2992;140 spider;WEB SPIDER;140;;1820;DATA JUMLAH BIBIT ESTIMASI
+31;2023;Perairan Kabupaten Pulau Morotai, Halmahera Utara;Maluku Utara;-2.00913;128.27786;430 m2;430;140 spider;WEB SPIDER;140;;1820;DATA JUMLAH BIBIT ESTIMASI
+32;2023;Perairan Pulau Wangi - wangi, Kabupaten Wakatobi;Sulawesi tenggara;-5.26283;123.51759;14.206 m2;14206;100 spider;WEB SPIDER;100;;1300;DATA JUMLAH BIBIT ESTIMASI
+33;2023;Perairan Kampung Sauwandarek, Distrik Meos Mansar, Raja Ampat (Aqua Blu);Papua Barat Daya;-0.59036;130.60231;100 m2;100;90 spider;WEB SPIDER;90;;1170;DATA JUMLAH BIBIT ESTIMASI
+34;2023;Perairan Kelurahan Kepicut Kec. Sijuk Kab. Belitung;Kepulauan Bangka Belitung;-2.55472;107.65028;600 m2;600;360 spider;WEB SPIDER;360;;4680;DATA JUMLAH BIBIT ESTIMASI
+35;2023;Perairan Desa Buku Limau, Kec. Manggar Kab. Belitung Timur;Kepulauan Bangka Belitung;-2.81306;108.40056;20.000 m2;20000;360 spider;WEB SPIDER;360;;4680;DATA JUMLAH BIBIT ESTIMASI
+36;2023;Perairan Desa Buku Limau, Kec. Manggar Kab. Belitung Timur;Kepulauan Bangka Belitung;-2.81;108.40556;20.000 m2;20000;360 spider;WEB SPIDER;360;;4680;DATA JUMLAH BIBIT ESTIMASI
+37;2023;Perairan Desa Buku Limau, Kec. Manggar Kab. Belitung Timur;Kepulauan Bangka Belitung;-2.84028;108.39306;20.000 m2;20000;360 spider;WEB SPIDER;360;;4680;DATA JUMLAH BIBIT ESTIMASI
+38;2023;Perairan Lhoknga, Aceh Besar;Aceh;5.48117;95.23044;1.308,65 m2;1308.6;300 spider;WEB SPIDER;300;;3900;DATA JUMLAH BIBIT ESTIMASI
+39;2023;Perairan Paiton, Probolinggo;Jawa Timur;-7.70077;113.5738;1.023 m2;1023;145 spider;WEB SPIDER;145;;1885;DATA JUMLAH BIBIT ESTIMASI
+40;2023;Perairan Desa Bajopulo Kec. Sape, Bima;Nusa Tenggara Barat;-8.58163;119.04668;1.600 m2;1600;130 spider;WEB SPIDER;130;;1690;DATA JUMLAH BIBIT ESTIMASI
+41;2023;Perairan Desa Gumantar, Kecamatan Kayangan, Lombok Utara;Nusa Tenggara Barat;-8.24212;116.2721;1.997 m2;1997;140 spider;WEB SPIDER;140;;1820;DATA JUMLAH BIBIT ESTIMASI
+42;2023;Perairan Pulau Dedap, Kota Batam;Kepulauan Riau;1.13336;103.85596;54,0384 m2;54;130 spider;WEB SPIDER;130;;1690;DATA JUMLAH BIBIT ESTIMASI
+43;2023;Perairan Pulau Galang Kecil, Kota Batam;Kepulauan Riau;1.11414;103.83268;54,0384 m2;54;130 spider;WEB SPIDER;130;;1690;DATA JUMLAH BIBIT ESTIMASI
+44;2024;Perairan Desa Botutonuo, Teluk Tomini, Kabupaten Bone Bolango;Gorontalo;0.44533;123.12289;150 m2;150;150 Unit Spider ;WEB SPIDER;150; 1050 fragmen karang;1050;
+45;2024;Perairan Desa Hatiwe Besar, Teluk Ambon Luar (TAL), Kota Ambon;Maluku;-3.67844;128.13797;1500 m2;1500;116 Unit Spider ;WEB SPIDER;116; 1392 fragmen karang;1392;
+46;2024;Perairan Pulau Maratua, Kabupaten Berau;Kalimantan Timur;2.20306;118.59019;112 m2;112;75 Unit Spider ;WEB SPIDER;75; 750 Fragmen karang;750;
+47;2024;Perairan Tanjung Api Desa Labuan Kecamatan Ratolindo, Kabupaten Tojo Una Una;Sulawesi Tengah;-0.83651;121.58827;834 m2;834;100 Unit Spider ;WEB SPIDER;100; 1300 fragmen karang;1300;
+48;2024;Perairan Gusung Pulau Air, Kepulauan Seribu;DKI Jakarta;-5.76019;106.60495;500 m2;500;150 Unit Spider ;WEB SPIDER;150; 2250 fragmen karang;2250;
+49;2024;Perairan Pulau Langkai, Kota Makassar;Sulawesi Selatan;5.02784;119.09481;250 m2;250;135 Unit Spider ;WEB SPIDER;135; 2025 fragmen karang;2025;
+50;2024;Perairan Desa Mekar (Sama Jaya) Kecamatan Soropia, Konawe;Sulawesi Tenggara;-3.93714;122.65396;2000 m2;2000;110 Unit Spider ;WEB SPIDER;110; 2000 fragmen karang;2000;
+51;2024;Perairan Desa Larantuka, Kecamatan Larantuka Kabupaten Flores Timur;Nusa Tenggara Timur;-8.34807;122.97811;4692 m2;4692;130 Unit Spider ;WEB SPIDER;130; 1560 fragmen karang;1560;
+52;2024;Perairan Gili Genting, Desa Bringsang Kecamatan Gili Genting, Kabupaten Sumenep;Jawa Timur;-7.17709;113.91266;130 m2;130;130 Unit Spider ;WEB SPIDER;130; 1560 fragmen karang;1560;
+53;2024;Perairan Desa Linau, Kecamatan Maje, Kabupaten Kaur;Bengkulu;-4.83981;103.41339;5039 m2;5039;110 Unit Spider ;WEB SPIDER;110; 13200 fragmen karang;13200;
+54;2024;Perairan Banjar Dinas Muntig Desa Tulamben, Kecamatan Kubu, Kabupaten Karangasem;Bali;-8.29552;115.6125;4692 m2;4692;130 Unit Spider ;WEB SPIDER;130; 1560 fragmen karang;1560;
+55;2024;Perairan Desa Bira Tengah, Kabupaten Sampang;Jawa Timur;6.88573;113.39496;65 m2;65;65 Unit Spider ;WEB SPIDER;65; 780 fragmen karang;780;
+56;2025;Dusun labu Bua Desa Pukat Kecamatan Utan, Kabupaten Sumbawa;Nusa Tenggara Barat;-8.37981;117.10077;1.000 m2;1000;120 Unit Spider ;WEB SPIDER;120; 2.250 fragmen karang;2250;
+57;2025;Perairan Pulau Bokori, Kabupaten Konawe;Sulawesi Tenggara;-3.95144;122.64683;2.400 m2;2400;90 Unit Spider ;WEB SPIDER;90; 1.159 fragmen karang;1159;
+58;2025;Perairan Pulau Tidung, Kepulauan Seribu;DKI Jakarta;-5.8052;106.5176;530 m2;530;160 Unit Spider;WEB SPIDER;160; 2.100 fragmen karang;2100;
+59;2025;Perairan Pulau Gosong, Kabupaten Indramayu;Jawa Barat;-5.87128;108.4072;530 m2;530;160 Unit Spider;WEB SPIDER;160; 2.100 fragmen karang;2100;
+60;2025;Perairan Gusung Toraja, Kecamatan Binuang, Kabupaten Polewali Mandar;Sulawesi Barat;-3.48347;119.38933;5.163,109 m2;5163.1;150 Unit Spider;WEB SPIDER;150; 1.950 fragmen karang;1950;
+61;2025;Perairan Gusung Toraja, Kecamatan Binuang, Kabupaten Polewali Mandar;Sulawesi Barat;-3.48399;119.39049;5.163,109 m2;5163.1;150 Unit Spider;WEB SPIDER;150; 1.950 fragmen karang;1950;
+62;2025;Perairan Pulau Panjang, Kabupaten Jepara;Jawa Tengah;-6.57406;110.63117;236,1 m2;263.1;165 Unit Spider;WEB SPIDER;165; 2.145 fragmen karang;2145;
+63;2025;Perairan Pulau Maratua;Kalimantan Timur;2.20306;118.59024;45 m2;45;80 Unit Spider;WEB SPIDER;80; 1.000 fragmen karang;1000;
+64;2025;Perairan Desa Perlang, Kabupaten Bangka Tengah;Kepulauan Bangka Belitung;-2.48111;106.55;6.700 m2;6700;120 Unit Spider;WEB SPIDER;120; 1.800 fragmen karang;1800;
+65;2025;Perairan Desa Perlang, Kabupaten Bangka Tengah;Kepulauan Bangka Belitung;-2.47889;106.54694;6.700 m2;6700;120 Unit Spider;WEB SPIDER;120; 1.800 fragmen karang;1800;
+66;2025;Perairan Pulau Enggano, Kabupaten Bengkulu Utara;Bengkulu;-5.36996;102.34489;1.000 m2;1000;80 Unit Spider;WEB SPIDER;80; ;1040;DATA JUMLAH BIBIT ESTIMASI
+67;2025;Perairan Pulau Bokori, Kabupaten Konawe;Sulawesi Tenggara;-3.95172;122.647;6.400 m2;6400;160 Unit Spider;WEB SPIDER;160; ;2080;DATA JUMLAH BIBIT ESTIMASI
