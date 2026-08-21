@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Kerusakan dan Pemulihan Terumbu Karang Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- PapaParse -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        body { background-color: #0b0f19; color: #f3f4f6; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+        /* Kustomisasi tampilan Leaflet Control agar senada dengan tema gelap */
+        .leaflet-control-layers { background: #1f2937 !important; color: #f3f4f6 !important; border: 1px solid #374151 !important; border-radius: 6px !important; padding: 6px; font-size: 11px; }
+        .leaflet-control-layers-toggle { background-image: url(https://unpkg.com/leaflet@1.9.4/dist/images/layers.png); filter: invert(1); }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden font-sans text-xs">
+
+    <!-- Header -->
+    <header class="bg-[#111827] border-b border-gray-800 px-4 py-2.5 flex justify-between items-center z-50">
+        <div class="flex items-center space-x-2">
+            <span class="text-lg">🌊</span>
+            <div>
+                <h1 class="font-bold text-sm tracking-wide text-white">KERUSAKAN & PEMULIHAN TERUMBU KARANG</h1>
+                <p class="text-[10px] text-gray-400">DASHBOARD MONITORING TERUMBU KARANG</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <span class="bg-[#1f2937] px-3 py-1 rounded text-gray-300 border border-gray-700">📅 2003 - 2026</span>
+            <button class="bg-[#1f2937] hover:bg-gray-700 px-3 py-1 rounded border border-gray-700 text-gray-200">Bagikan</button>
+            <button class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white font-medium">Login</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="flex flex-1 overflow-hidden">
+        
+        <!-- SIDEBAR KIRI: FILTER KERUSAKAN -->
+        <aside class="w-64 bg-[#111827] border-r border-gray-800 p-4 flex flex-col space-y-4 overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                <span class="font-bold text-blue-400 flex items-center gap-1">🔍 FILTER KERUSAKAN</span>
+                <button onclick="resetFilter()" class="text-gray-400 hover:text-white text-[10px]">Reset</button>
+            </div>
+
+            <!-- Mode Tampilan Tabel -->
+            <div>
+                <label class="block text-gray-400 mb-1 font-semibold">Mode Tampilan Tabel</label>
+                <select id="filter-mode" onchange="applyFilter()" class="w-full bg-[#1f2937] border border-gray-700 rounded p-1.5 text-gray-200 font-medium">
+                    <option value="kerusakan">Data Kerusakan</option>
+                    <option value="pemulihan">Data Pemulihan</option>
+                </select>
+            </div>
+
+            <hr class="border-gray-800">
+
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-gray-400 mb-1">Provinsi (Kerusakan)</label>
+                    <select id="filter-provinsi" onchange="applyFilter()" class="w-full bg-[#1f2937] border border-gray-700 rounded p-1.5 text-gray-200">
+                        <option value="">Semua Provinsi</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">Kabupaten / Kota</label>
+                    <select id="filter-kab" onchange="applyFilter()" class="w-full bg-[#1f2937] border border-gray-700 rounded p-1.5 text-gray-200">
+                        <option value="">Semua Kabupaten/Kota</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">Klasifikasi Status</label>
+                    <select id="filter-status" onchange="applyFilter()" class="w-full bg-[#1f2937] border border-gray-700 rounded p-1.5 text-gray-200">
+                        <option value="">Semua Klasifikasi</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">Tahun</label>
+                    <select id="filter-tahun" onchange="applyFilter()" class="w-full bg-[#1f2937] border border-gray-700 rounded p-1.5 text-gray-200">
+                        <option value="">Semua Tahun</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Keterangan Peta -->
+            <div class="mt-auto bg-[#1f2937] p-3 rounded border border-gray-800">
+                <p class="font-semibold text-gray-300 mb-2">KETERANGAN PETA</p>
+                <div class="grid grid-cols-2 gap-2 text-[10px]">
+                    <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Sangat Baik</div>
+                    <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> Baik</div>
+                    <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span> Sedang</div>
+                    <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span> Buruk</div>
+                    <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Sangat Buruk</div>
+                    <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span> Pemulihan</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- KONTEN UTAMA (Peta & Panel Kanan) -->
+        <main class="flex-1 flex flex-col p-3 overflow-y-auto space-y-3 bg-[#0b0f19]">
+            
+            <div class="flex flex-col lg:flex-row gap-3">
+                <!-- PETA DI TENGAH -->
+                <div class="flex-1 bg-[#111827] border border-gray-800 rounded-lg p-2 flex flex-col relative min-h-[350px]">
+                    <div class="mb-2">
+                        <input type="text" id="search-box" oninput="applyFilter()" placeholder="🔍 Cari lokasi, daerah, atau nama..." class="w-full bg-[#1f2937] border border-gray-700 rounded px-3 py-1.5 text-gray-200 text-xs">
+                    </div>
+                    <div id="map" class="w-full h-[320px] rounded z-0"></div>
+                </div>
+
+                <!-- SIDEBAR KANAN: RINGKASAN & FILTER PEMULIHAN -->
+                <div class="w-72 bg-[#111827] border border-gray-800 rounded-lg p-3 flex flex-col space-y-3 overflow-y-auto">
+                    
+                    <!-- Filter Pemulihan di Kanan -->
+                    <div>
+                        <p class="font-bold text-emerald-400 mb-2 border-b border-gray-800 pb-1">FILTER PEMULIHAN</p>
+                        <div class="space-y-2">
+                            <div>
+                                <label class="block text-gray-400 mb-1">Provinsi (Pemulihan)</label>
+                                <select id="filter-prov-pemulihan" onchange="applyFilter()" class="w-full bg-[#1f2937] border border-gray-700 rounded p-1.5 text-gray-200">
+                                    <option value="">Semua Provinsi</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-400 mb-1">Jenis Media</label>
+                                <select id="filter-jenis-media" onchange="applyFilter()" class="w-full bg-[#1f2937] border border-gray-700 rounded p-1.5 text-gray-200">
+                                    <option value="">Semua Jenis Media</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-gray-800">
+
+                    <!-- Ringkasan Kerusakan -->
+                    <div>
+                        <p class="font-semibold text-blue-400 mb-2 border-b border-gray-800 pb-1">RINGKASAN KERUSAKAN</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-[#1f2937] p-2 rounded text-center border border-gray-800">
+                                <span class="text-[10px] text-gray-400 block">TOTAL TITIK</span>
+                                <span id="stat-total" class="font-bold text-blue-400 text-sm">0</span>
+                            </div>
+                            <div class="bg-[#1f2937] p-2 rounded text-center border border-gray-800">
+                                <span class="text-[10px] text-gray-400 block">TOTAL KAB/KOTA</span>
+                                <span id="stat-daerah" class="font-bold text-green-400 text-sm">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ringkasan Pemulihan -->
+                    <div>
+                        <p class="font-semibold text-emerald-400 mb-2 border-b border-gray-800 pb-1">RINGKASAN PEMULIHAN</p>
+                        <div class="space-y-1.5 text-[11px]">
+                            <div class="bg-[#1f2937] p-2 rounded border border-gray-800 flex justify-between items-center">
+                                <span class="text-gray-400">Lokasi Pemulihan</span>
+                                <span id="rec-total-lokasi" class="font-bold text-cyan-400">0</span>
+                            </div>
+                            <div class="bg-[#1f2937] p-2 rounded border border-gray-800 flex justify-between items-center">
+                                <span class="text-gray-400">Total Luas Penanaman</span>
+                                <span id="rec-total-luas" class="font-bold text-emerald-400">0</span>
+                            </div>
+                            <div class="bg-[#1f2937] p-2 rounded border border-gray-800 flex justify-between items-center">
+                                <span class="text-gray-400">Total Jumlah Media</span>
+                                <span id="rec-total-media" class="font-bold text-yellow-400">0</span>
+                            </div>
+                            <div class="bg-[#1f2937] p-2 rounded border border-gray-800 flex justify-between items-center">
+                                <span class="text-gray-400">Total Jumlah Bibit</span>
+                                <span id="rec-total-bibit" class="font-bold text-purple-400">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TABEL DATA DI BAWAH -->
+            <div class="bg-[#111827] border border-gray-800 rounded-lg p-3 flex flex-col flex-1">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 id="table-title" class="font-semibold text-gray-300">DAFTAR DATA KERUSAKAN <span id="table-count" class="text-gray-500 font-normal"></span></h2>
+                </div>
+                <div class="overflow-x-auto flex-1">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr id="table-header" class="bg-[#1f2937] text-gray-400 sticky top-0 border-b border-gray-700"></tr>
+                        </thead>
+                        <tbody id="table-body" class="divide-y divide-gray-800 text-gray-300">
+                            <tr><td colspan="8" class="p-4 text-center text-gray-500">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Navigasi Pagination -->
+                <div class="flex justify-between items-center mt-3 pt-2 border-t border-gray-800 text-gray-400">
+                    <span id="page-info" class="text-[11px]">Menampilkan 0 - 0 dari 0 data</span>
+                    <div class="flex items-center space-x-1">
+                        <button onclick="prevPage()" id="btn-prev" class="bg-[#1f2937] hover:bg-gray-700 px-3 py-1 rounded border border-gray-700 text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed">&lt;</button>
+                        <span id="page-indicator" class="px-3 py-1 text-gray-300 bg-[#1f2937] rounded border border-gray-700 text-[11px]">1 / 1</span>
+                        <button onclick="nextPage()" id="btn-next" class="bg-[#1f2937] hover:bg-gray-700 px-3 py-1 rounded border border-gray-700 text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed">&gt;</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        let allData = [];
+        let allRecoveryData = [];
+        let filteredData = [];
+        let filteredRecoveryData = [];
+        let currentPage = 1;
+        const rowsPerPage = 50;
+
+        let map = L.map('map').setView([-2.5489, 118.0148], 5);
+
+        // Layer Groups
+        let markersLayer = L.layerGroup().addTo(map);
+        let recoveryMarkersLayer = L.layerGroup().addTo(map);
+        let ecosystemGeoJsonLayer = L.layerGroup().addTo(map); // Layer untuk GeoJSON Ekosistem
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        // Tambahkan Leaflet Control Layers (Bisa Aktif/Non-Aktifkan Lapisan)
+        let overlayMaps = {
+            "Titik Kerusakan": markersLayer,
+            "Titik Pemulihan": recoveryMarkersLayer,
+            "Ekosistem Terumbu Karang (GeoJSON)": ecosystemGeoJsonLayer
+        };
+        L.control.layers(null, overlayMaps, { collapsed: false }).addTo(map);
+
+// Memuat file GeoJSON terumbu_karang.json
+        fetch('terumbu_karang.geojson')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Gagal memuat file terumbu_karang.geojson');
+                }
+                return response.json();
+            })
+            .then(data => {
+                let geojsonLayer = L.geoJSON(data, {
+                    style: { 
+                        color: "#38bdf8", 
+                        weight: 1.5, 
+                        fillColor: "#0284c7", 
+                        fillOpacity: 0.4 
+                    },
+                    onEachFeature: function (feature, layer) {
+                        let namaEkosistem = feature.properties.nama || feature.properties.NAMA || feature.properties.Name || 'Kawasan Terumbu Karang';
+                        layer.bindPopup(`
+                            <div style="font-size: 11px; line-height: 1.4; color: #111;">
+                                <b>[EKOSISTEM]</b><br>
+                                <b>Nama:</b> ${namaEkosistem}
+                            </div>
+                        `);
+                    }
+                });
+                ecosystemGeoJsonLayer.addLayer(geojsonLayer);
+            })
+            .catch(error => {
+                console.error("Error loading GeoJSON:", error);
+            });
+
+        // 1. Load CSV Kerusakan
+        Papa.parse("terumbu_karang.csv", {
+            download: true,
+            header: true,
+            delimiter: ";",
+            skipEmptyLines: true,
+            transformHeader: function(header) { return header.trim(); },
+            complete: function(results) {
+                allData = results.data;
+                initFilters();
+                applyFilter();
+            }
+        });
+
+        // 2. Load CSV Pemulihan Terumbu Karang
+        Papa.parse("Data Pemulihan Terumbu Karang.csv", {
+            download: true,
+            header: true,
+            delimiter: ";",
+            skipEmptyLines: true,
+            encoding: "latin1",
+            transformHeader: function(header) { return header.trim(); },
+            complete: function(results) {
+                allRecoveryData = results.data;
+                initRecoveryFilters();
+                applyFilter();
+            }
+        });
+
+        function initFilters() {
+            let provinces = [...new Set(allData.map(item => item.Provinsi).filter(Boolean))].sort();
+            let statuses = [...new Set(allData.map(item => item['KLASIFIKASI STATUS']).filter(Boolean))].sort();
+            let years = [...new Set(allData.map(item => item.Tahun).filter(Boolean))].sort();
+
+            let provSelect = document.getElementById('filter-provinsi');
+            provSelect.innerHTML = '<option value="">Semua Provinsi</option>';
+            provinces.forEach(p => provSelect.innerHTML += `<option value="${p}">${p}</option>`);
+
+            let statusSelect = document.getElementById('filter-status');
+            statusSelect.innerHTML = '<option value="">Semua Klasifikasi</option>';
+            statuses.forEach(s => statusSelect.innerHTML += `<option value="${s}">${s}</option>`);
+
+            let yearSelect = document.getElementById('filter-tahun');
+            yearSelect.innerHTML = '<option value="">Semua Tahun</option>';
+            years.forEach(y => yearSelect.innerHTML += `<option value="${y}">${y}</option>`);
+        }
+
+        function initRecoveryFilters() {
+            let provRec = [...new Set(allRecoveryData.map(item => item.Provinsi).filter(Boolean))].sort();
+            let mediaTypes = [...new Set(allRecoveryData.map(item => item['JENIS MEDIA']).filter(Boolean))].sort();
+
+            let provPemulihan = document.getElementById('filter-prov-pemulihan');
+            provPemulihan.innerHTML = '<option value="">Semua Provinsi</option>';
+            provRec.forEach(p => provPemulihan.innerHTML += `<option value="${p}">${p}</option>`);
+
+            let mediaSelect = document.getElementById('filter-jenis-media');
+            mediaSelect.innerHTML = '<option value="">Semua Jenis Media</option>';
+            mediaTypes.forEach(m => mediaSelect.innerHTML += `<option value="${m}">${m}</option>`);
+        }
+
+        document.getElementById('filter-provinsi').addEventListener('change', function() {
+            let selectedProv = this.value;
+            let kabSelect = document.getElementById('filter-kab');
+            kabSelect.innerHTML = '<option value="">Semua Kabupaten/Kota</option>';
+
+            if (selectedProv) {
+                let kabs = [...new Set(allData.filter(i => i.Provinsi === selectedProv).map(i => i['Kota/Kabupaten']).filter(Boolean))].sort();
+                kabs.forEach(k => kabSelect.innerHTML += `<option value="${k}">${k}</option>`);
+            }
+            applyFilter();
+        });
+
+        function applyFilter() {
+            let mode = document.getElementById('filter-mode').value;
+            let prov = document.getElementById('filter-provinsi').value;
+            let kab = document.getElementById('filter-kab').value;
+            let status = document.getElementById('filter-status').value;
+            let tahun = document.getElementById('filter-tahun').value;
+            
+            let provPemulihan = document.getElementById('filter-prov-pemulihan').value;
+            let jenisMedia = document.getElementById('filter-jenis-media').value;
+            let search = document.getElementById('search-box').value.toLowerCase();
+
+            // Filter Kerusakan
+            filteredData = allData.filter(item => {
+                let matchProv = !prov || item.Provinsi === prov;
+                let matchKab = !kab || item['Kota/Kabupaten'] === kab;
+                let matchStatus = !status || item['KLASIFIKASI STATUS'] === status;
+                let matchTahun = !tahun || item.Tahun == tahun;
+                let matchSearch = !search ||
+                    (item.Provinsi && item.Provinsi.toLowerCase().includes(search)) ||
+                    (item['Kota/Kabupaten'] && item['Kota/Kabupaten'].toLowerCase().includes(search)) ||
+                    (item.Name && item.Name.toLowerCase().includes(search));
+
+                return matchProv && matchKab && matchStatus && matchTahun && matchSearch;
+            });
+
+            // Filter Pemulihan
+            filteredRecoveryData = allRecoveryData.filter(item => {
+                let matchProvRec = !provPemulihan || item.Provinsi === provPemulihan;
+                let matchMedia = !jenisMedia || item['JENIS MEDIA'] === jenisMedia;
+                let matchSearchRec = !search ||
+                    (item.Provinsi && item.Provinsi.toLowerCase().includes(search)) ||
+                    (item['Kabupaten/Kota'] && item['Kabupaten/Kota'].toLowerCase().includes(search)) ||
+                    (item['JENIS MEDIA'] && item['JENIS MEDIA'].toLowerCase().includes(search));
+
+                return matchProvRec && matchMedia && matchSearchRec;
+            });
+
+            currentPage = 1;
+            updateDashboard(mode);
+        }
+
+        function resetFilter() {
+            document.getElementById('filter-mode').value = "kerusakan";
+            document.getElementById('filter-provinsi').value = "";
+            document.getElementById('filter-kab').innerHTML = '<option value="">Semua Kabupaten/Kota</option>';
+            document.getElementById('filter-status').value = "";
+            document.getElementById('filter-tahun').value = "";
+            document.getElementById('filter-prov-pemulihan').value = "";
+            document.getElementById('filter-jenis-media').value = "";
+            document.getElementById('search-box').value = "";
+            applyFilter();
+        }
+
+        function updateDashboard(mode) {
+            markersLayer.clearLayers();
+            recoveryMarkersLayer.clearLayers();
+
+            let tableBody = document.getElementById('table-body');
+            let tableHeader = document.getElementById('table-header');
+            let tableTitle = document.getElementById('table-title');
+            tableBody.innerHTML = "";
+
+            let counts = { "Sangat Baik": 0, "Baik": 0, "Sedang": 0, "Buruk": 0, "Sangat Buruk": 0 };
+            let uniqueRegions = new Set();
+
+            // Render Peta Titik Kerusakan
+            filteredData.forEach((item) => {
+                let lat = parseFloat(item.Latitude);
+                let lon = parseFloat(item.Longitude);
+                let rawStatus = (item['KLASIFIKASI STATUS'] || '').trim();
+
+                let status = "Buruk";
+                if (rawStatus === 'Sangat Baik' || rawStatus === 'Baik Sekali') status = "Sangat Baik";
+                else if (rawStatus === 'Baik') status = "Baik";
+                else if (rawStatus === 'Sedang') status = "Sedang";
+                else if (rawStatus === 'Buruk') status = "Buruk";
+                else if (rawStatus === 'Sangat Buruk') status = "Sangat Buruk";
+
+                if (status in counts) counts[status]++;
+                if (item['Kota/Kabupaten']) uniqueRegions.add(item['Kota/Kabupaten'].trim());
+
+                if (!isNaN(lat) && !isNaN(lon)) {
+                    let color = 'gray';
+                    if (status === 'Sangat Baik') color = '#3b82f6';
+                    else if (status === 'Baik') color = '#22c55e';
+                    else if (status === 'Sedang') color = '#eab308';
+                    else if (status === 'Buruk') color = '#f97316';
+                    else if (status === 'Sangat Buruk') color = '#ef4444';
+
+                    let marker = L.circleMarker([lat, lon], {
+                        color: color, fillColor: color, fillOpacity: 0.7, radius: 5
+                    }).bindPopup(`
+                        <div style="font-size: 11px; line-height: 1.4; color: #111;">
+                            <b>[KERUSAKAN] ${item['Kota/Kabupaten'] || ''} - ${item.Provinsi || ''}</b><br>
+                            <b>Nama Titik:</b> ${item.Name || ''}<br>
+                            <b>Koordinat:</b> ${lat.toFixed(5)}, ${lon.toFixed(5)}<br>
+                            <hr style="margin: 4px 0; border-color: #ccc;">
+                            <b>STATUS :</b> <span style="font-weight: bold; color: ${color};">${rawStatus}</span>
+                        </div>
+                    `);
+                    markersLayer.addLayer(marker);
+                }
+            });
+
+            // Render Peta Titik Pemulihan
+            filteredRecoveryData.forEach((item) => {
+                let lat = parseFloat(item.Y);
+                let lon = parseFloat(item.X);
+
+                if (!isNaN(lat) && !isNaN(lon)) {
+                    let recMarker = L.circleMarker([lat, lon], {
+                        color: '#06b6d4', fillColor: '#06b6d4', fillOpacity: 0.8, radius: 6, weight: 1.5
+                    }).bindPopup(`
+                        <div style="font-size: 11px; line-height: 1.4; color: #111;">
+                            <b>[PEMULIHAN] ${item['Kabupaten/Kota'] || ''} - ${item.Provinsi || ''}</b><br>
+                            <b>Tahun:</b> ${item.Tahun || '-'}<br>
+                            <b>Jenis Media:</b> ${item['JENIS MEDIA'] || '-'}<br>
+                            <b>Luas Penanaman:</b> ${item['Luas Penanaman (m2)'] || '-'} m²<br>
+                            <b>Jumlah Bibit:</b> ${item['JUMLAH BIBIT'] || '-'}<br>
+                        </div>
+                    `);
+                    recoveryMarkersLayer.addLayer(recMarker);
+                }
+            });
+
+            // Hitung total ringkasan pemulihan
+            let totalLuas = 0;
+            let totalMedia = 0;
+            let totalBibit = 0;
+
+            filteredRecoveryData.forEach(item => {
+                let luas = parseFloat(item['Luas Penanaman (m2)'] || item.Luas_Penanaman || 0);
+                let media = parseInt(item['JUMLAH MEDIA'] || item.Jumlah_Med || 0);
+                let bibit = parseInt(item['JUMLAH BIBIT'] || item.BIBIT || 0);
+
+                if (!isNaN(luas)) totalLuas += luas;
+                if (!isNaN(media)) totalMedia += media;
+                if (!isNaN(bibit)) totalBibit += bibit;
+            });
+
+            // Tentukan data tabel bawah
+            let displayList = mode === 'pemulihan' ? filteredRecoveryData : filteredData;
+            let totalPages = Math.ceil(displayList.length / rowsPerPage) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            let startIdx = (currentPage - 1) * rowsPerPage;
+            let endIdx = Math.min(startIdx + rowsPerPage, displayList.length);
+            let paginatedItems = displayList.slice(startIdx, endIdx);
+
+            if (mode === 'pemulihan') {
+                tableTitle.innerHTML = `DAFTAR DATA PEMULIHAN TERUMBU KARANG <span class="text-gray-500 font-normal">(${displayList.length} data)</span>`;
+                tableHeader.innerHTML = `
+                    <th class="p-2 w-12">No</th>
+                    <th class="p-2">Tahun</th>
+                    <th class="p-2">Daerah</th>
+                    <th class="p-2">Provinsi</th>
+                    <th class="p-2">Luas Penanaman (m²)</th>
+                    <th class="p-2">Jumlah Media</th>
+                    <th class="p-2">Jenis Media</th>
+                    <th class="p-2">Jumlah Bibit</th>
+                `;
+            } else {
+                tableTitle.innerHTML = `DAFTAR DATA KERUSAKAN TERUMBU KARANG <span class="text-gray-500 font-normal">(${displayList.length} data)</span>`;
+                tableHeader.innerHTML = `
+                    <th class="p-2 w-12">No</th>
+                    <th class="p-2">Tahun</th>
+                    <th class="p-2">Daerah</th>
+                    <th class="p-2">Provinsi</th>
+                    <th class="p-2">Nama Titik</th>
+                    <th class="p-2">Klasifikasi Status</th>
+                    <th class="p-2">Latitude</th>
+                    <th class="p-2">Longitude</th>
+                `;
+            }
+
+            if (paginatedItems.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-500">Tidak ada data yang ditemukan.</td></tr>`;
+            } else {
+                paginatedItems.forEach((item, index) => {
+                    let absoluteIndex = startIdx + index + 1;
+                    if (mode === 'pemulihan') {
+                        tableBody.innerHTML += `
+                            <tr class="hover:bg-[#1f2937]">
+                                <td class="p-2">${absoluteIndex}</td>
+                                <td class="p-2">${item.Tahun || '-'}</td>
+                                <td class="p-2">${item['Kabupaten/Kota'] || '-'}</td>
+                                <td class="p-2">${item.Provinsi || '-'}</td>
+                                <td class="p-2">${item['Luas Penanaman (m2)'] || '-'}</td>
+                                <td class="p-2">${item['JUMLAH MEDIA'] || '-'}</td>
+                                <td class="p-2">${item['JENIS MEDIA'] || '-'}</td>
+                                <td class="p-2">${item['JUMLAH BIBIT'] || '-'}</td>
+                            </tr>
+                        `;
+                    } else {
+                        let rawStatus = (item['KLASIFIKASI STATUS'] || '-').trim();
+                        let badgeColor = 'bg-gray-700 text-gray-300';
+                        if (rawStatus.includes('Baik')) badgeColor = 'bg-green-900 text-green-300 border border-green-700';
+                        else if (rawStatus.includes('Buruk')) badgeColor = 'bg-red-900 text-red-300 border border-red-700';
+
+                        tableBody.innerHTML += `
+                            <tr class="hover:bg-gray-800">
+                                <td class="p-2">${absoluteIndex}</td>
+                                <td class="p-2">${item.Tahun || '-'}</td>
+                                <td class="p-2">${item['Kota/Kabupaten'] || '-'}</td>
+                                <td class="p-2">${item.Provinsi || '-'}</td>
+                                <td class="p-2">${item.Name || '-'}</td>
+                                <td class="p-2"><span class="px-2 py-0.5 rounded text-[10px] ${badgeColor}">${rawStatus}</span></td>
+                                <td class="p-2">${item.Latitude || '-'}</td>
+                                <td class="p-2">${item.Longitude || '-'}</td>
+                            </tr>
+                        `;
+                    }
+                });
+            }
+
+            // Update Panel Kanan Ringkasan
+            document.getElementById('stat-total').innerText = filteredData.length.toLocaleString();
+            document.getElementById('stat-daerah').innerText = uniqueRegions.size.toLocaleString();
+            
+            document.getElementById('rec-total-lokasi').innerText = filteredRecoveryData.length.toLocaleString();
+            document.getElementById('rec-total-luas').innerText = totalLuas.toLocaleString() + " m²";
+            document.getElementById('rec-total-media').innerText = totalMedia.toLocaleString();
+            document.getElementById('rec-total-bibit').innerText = totalBibit.toLocaleString();
+
+            // Update Pagination Info
+            document.getElementById('page-info').innerText = displayList.length > 0 ? 
+                `Menampilkan ${startIdx + 1} - ${endIdx} dari ${displayList.length} data` : `Menampilkan 0 data`;
+            document.getElementById('page-indicator').innerText = `${currentPage} / ${totalPages}`;
+
+            document.getElementById('btn-prev').disabled = currentPage === 1;
+            document.getElementById('btn-next').disabled = currentPage >= totalPages;
+        }
+
+        function nextPage() {
+            let mode = document.getElementById('filter-mode').value;
+            let displayList = mode === 'pemulihan' ? filteredRecoveryData : filteredData;
+            let totalPages = Math.ceil(displayList.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateDashboard(mode);
+            }
+        }
+
+        function prevPage() {
+            let mode = document.getElementById('filter-mode').value;
+            if (currentPage > 1) {
+                currentPage--;
+                updateDashboard(mode);
+            }
+        }
+    </script>
+</body>
+</html>
