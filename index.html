@@ -222,13 +222,12 @@
         // Layer Groups
         let markersLayer = L.layerGroup().addTo(map);
         let recoveryMarkersLayer = L.layerGroup().addTo(map);
-        let ecosystemGeoJsonLayer = L.layerGroup().addTo(map); // Layer untuk GeoJSON Ekosistem
+        let ecosystemGeoJsonLayer = L.layerGroup().addTo(map);
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
-        // Tambahkan Leaflet Control Layers (Bisa Aktif/Non-Aktifkan Lapisan)
         let overlayMaps = {
             "Titik Kerusakan": markersLayer,
             "Titik Pemulihan": recoveryMarkersLayer,
@@ -236,12 +235,10 @@
         };
         L.control.layers(null, overlayMaps, { collapsed: false }).addTo(map);
 
-// Memuat file GeoJSON terumbu_karang.json
+        // Memuat file GeoJSON
         fetch('terumbu_karang.geojson')
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Gagal memuat file terumbu_karang.geojson');
-                }
+                if (!response.ok) throw new Error('Gagal memuat file terumbu_karang.geojson');
                 return response.json();
             })
             .then(data => {
@@ -282,7 +279,7 @@
             }
         });
 
-        // 2. Load CSV Pemulihan Terumbu Karang
+        // 2. Load CSV Pemulihan Terumbu Karang (Disesuaikan dengan nama file asli yang menggunakan spasi)
         Papa.parse("Data Pemulihan Terumbu Karang.csv", {
             download: true,
             header: true,
@@ -465,7 +462,6 @@
                 }
             });
 
-            // Hitung total ringkasan pemulihan
             let totalLuas = 0;
             let totalMedia = 0;
             let totalBibit = 0;
@@ -480,7 +476,6 @@
                 if (!isNaN(bibit)) totalBibit += bibit;
             });
 
-            // Tentukan data tabel bawah
             let displayList = mode === 'pemulihan' ? filteredRecoveryData : filteredData;
             let totalPages = Math.ceil(displayList.length / rowsPerPage) || 1;
             if (currentPage > totalPages) currentPage = totalPages;
@@ -555,7 +550,6 @@
                 });
             }
 
-            // Update Panel Kanan Ringkasan
             document.getElementById('stat-total').innerText = filteredData.length.toLocaleString();
             document.getElementById('stat-daerah').innerText = uniqueRegions.size.toLocaleString();
             
@@ -564,7 +558,6 @@
             document.getElementById('rec-total-media').innerText = totalMedia.toLocaleString();
             document.getElementById('rec-total-bibit').innerText = totalBibit.toLocaleString();
 
-            // Update Pagination Info
             document.getElementById('page-info').innerText = displayList.length > 0 ? 
                 `Menampilkan ${startIdx + 1} - ${endIdx} dari ${displayList.length} data` : `Menampilkan 0 data`;
             document.getElementById('page-indicator').innerText = `${currentPage} / ${totalPages}`;
@@ -576,7 +569,7 @@
         function nextPage() {
             let mode = document.getElementById('filter-mode').value;
             let displayList = mode === 'pemulihan' ? filteredRecoveryData : filteredData;
-            let totalPages = Math.ceil(displayList.length / rowsPerPage);
+            let totalPages = Math.ceil(displayList.length / rowsPerPage) || 1;
             if (currentPage < totalPages) {
                 currentPage++;
                 updateDashboard(mode);
@@ -584,9 +577,9 @@
         }
 
         function prevPage() {
-            let mode = document.getElementById('filter-mode').value;
             if (currentPage > 1) {
                 currentPage--;
+                let mode = document.getElementById('filter-mode').value;
                 updateDashboard(mode);
             }
         }
